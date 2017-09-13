@@ -63,3 +63,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 USER $NB_USER
 RUN pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl
+
+# Install gym requirements
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends zlib1g-dev cmake libav-tools
+
+USER $NB_USER
+RUN git clone https://github.com/openai/gym
+RUN pip install -e gym
+RUN pip install -e gym[atari]
