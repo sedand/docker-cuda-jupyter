@@ -59,16 +59,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ## -- END NVIDIA CUDNN6 DOCKER
 
-# Install tensorflow gpu python 3.6
+# Install tensorflow-1.3 gpu python 3.6
 
 USER $NB_USER
 RUN pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl
 
 # Install gym requirements
 USER root
-RUN apt-get update && apt-get install -y --no-install-recommends zlib1g-dev cmake libav-tools
+RUN apt-get update && apt-get install -y --no-install-recommends zlib1g-dev cmake libav-tools libopenmpi-dev
 
 USER $NB_USER
+#openai gym
 RUN git clone https://github.com/openai/gym
+#RUN cd gym && git checkout 1d85657
 RUN pip install -e gym
 RUN pip install -e gym[atari]
+
+#openai baselines
+#RUN git clone https://github.com/openai/baselines.git
+#RUN pip install -e baselines
